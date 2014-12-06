@@ -1,8 +1,15 @@
 'use strict';
 
-var exec;
+var exec, getBufferContents;
 
 exec = require('child_process').exec;
+
+getBufferContents = function (buffer) {
+    return {
+        buffer: buffer,
+        string: buffer.toString('utf8')
+    };
+};
 
 module.exports = function (command) {
 
@@ -21,20 +28,14 @@ module.exports = function (command) {
     exec(command, function (error, stdout, stderr) {
 
         if (error) {
-            return deferred.reject(error);
+            return deferred.reject(getBufferContents(error));
         }
 
         if (stderr) {
-            return deferred.reject({
-                buffer: stderr,
-                string: stderr.toString('utf8')
-            });
+            return deferred.reject(getBufferContents(stderr));
         }
 
-        deferred.resolve({
-            buffer: stdout,
-            string: stdout.toString('utf8')
-        });
+        deferred.resolve(stdout.toString('utf8'));
 
     });
 

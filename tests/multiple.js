@@ -82,4 +82,112 @@ describe('Testing of module.', function () {
 
     });
 
+    it('Function must return promise.', function () {
+
+        var promise;
+
+        promise = module('ls -l');
+
+        expect(promise.then).toBeDefined();
+        expect(promise.catch).toBeDefined();
+
+    });
+
+    describe('Testing async call of function with invalid command name.', function () {
+
+        var isSucceed, response;
+
+        beforeEach(function (done) {
+
+            var promise;
+
+            promise = module('some-unknown-command-name');
+
+            function fn (boolean, result) {
+                isSucceed = boolean;
+                response = result;
+                done();
+            }
+
+            promise.then(fn.bind(null, true));
+            promise.catch(fn.bind(null, false));
+
+        });
+
+        it('If invalid command name passed to function, catch must be called.', function () {
+            expect(isSucceed).toBe(false);
+        });
+
+        it('If invalid command name passed to function, response must contains object with buffer and string', function () {
+            expect(typeof response).toBe('object');
+            expect(typeof response.buffer).toBe('object');
+            expect(typeof response.string).toBe('string');
+        });
+
+    });
+
+    describe('Testing async call of function with command which has error in response.', function () {
+
+        var isSucceed, response;
+
+        beforeEach(function (done) {
+
+            var promise;
+
+            promise = module('cd some-unknown-directory');
+
+            function fn (boolean, result) {
+                isSucceed = boolean;
+                response = result;
+                done();
+            }
+
+            promise.then(fn.bind(null, true));
+            promise.catch(fn.bind(null, false));
+
+        });
+
+        it('If invalid command arguments passed to function, catch must be called.', function () {
+            expect(isSucceed).toBe(false);
+        });
+
+        it('If invalid command arguments passed to function, response must contains object with buffer and string', function () {
+            expect(typeof response).toBe('object');
+            expect(typeof response.buffer).toBe('object');
+            expect(typeof response.string).toBe('string');
+        });
+
+    });
+
+    describe('Testing async call of function with command which has haven\'t error in response.', function () {
+
+        var isSucceed, response;
+
+        beforeEach(function (done) {
+
+            var promise;
+
+            promise = module('ls -l');
+
+            function fn (boolean, result) {
+                isSucceed = boolean;
+                response = result;
+                done();
+            }
+
+            promise.then(fn.bind(null, true));
+            promise.catch(fn.bind(null, false));
+
+        });
+
+        it('If correct command passed to function, `then` function must be called.', function () {
+            expect(isSucceed).toBe(true);
+        });
+
+        it('If correct command passed to function, response must contains string.', function () {
+            expect(typeof response).toBe('string');
+        });
+
+    });
+
 });
