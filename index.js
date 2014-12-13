@@ -31,7 +31,7 @@ module.exports = function (command) {
             return deferred.reject(getBufferContents(error));
         }
 
-        if (stderr) {
+        if (stderr && !stdout) { // @note: stderr can be getted with stdout at one time!
             return deferred.reject(getBufferContents(stderr));
         }
 
