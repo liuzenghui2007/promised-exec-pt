@@ -11,7 +11,7 @@ getBufferContents = function (buffer) {
     };
 };
 
-module.exports = function (command) {
+module.exports = function (command, options) {
 
     var q, deferred;
 
@@ -25,7 +25,7 @@ module.exports = function (command) {
 
     deferred = q.defer();
 
-    exec(command, function (error, stdout, stderr) {
+    exec(command, options || {}, function (error, stdout, stderr) {
 
         if (error) {
             return deferred.reject(getBufferContents(error));
