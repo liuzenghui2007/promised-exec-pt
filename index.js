@@ -4,14 +4,7 @@ var exec, getBufferContents;
 
 exec = require('child_process').exec;
 
-getBufferContents = function (buffer) {
-    return {
-        buffer: buffer,
-        string: buffer.toString('utf8')
-    };
-};
-
-module.exports = function (command, options) {
+module.exports = function (command) {
 
     var q, deferred;
 
@@ -25,14 +18,14 @@ module.exports = function (command, options) {
 
     deferred = q.defer();
 
-    exec(command, options || {}, function (error, stdout, stderr) {
+    exec(command, function (error, stdout, stderr) {
 
         if (error) {
-            return deferred.reject(getBufferContents(error));
+            return deferred.reject(error);
         }
 
-        if (stderr && !stdout) { // @note: stderr can be getted with stdout at one time!
-            return deferred.reject(getBufferContents(stderr));
+        if (stderr && !stdout) {
+            return deferred.reject(new Error(stderr));
         }
 
         deferred.resolve(stdout.toString('utf8'));
