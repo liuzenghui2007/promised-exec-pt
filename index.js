@@ -17,8 +17,15 @@ module.exports = function (command) {
     }
 
     deferred = q.defer();
-
-    exec(command, function (error, stdout, stderr) {
+    var options = {
+        encoding: 'utf8',
+        timeout: 0,
+        maxBuffer: 5000 * 1024,
+        killSignal: 'SIGTERM',
+        cwd: null,
+        env: null
+    };
+    exec(command, options, function (error, stdout, stderr) {
 
         if (error) {
             return deferred.reject(error);

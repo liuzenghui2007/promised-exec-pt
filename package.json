@@ -1,14 +1,14 @@
 {
-  "name": "promised-exec",
+  "name": "promised-exec-pt",
   "version": "1.0.1",
-  "description": "Promised execution of terminal command.",
+  "description": "Promised execution of terminal command with greater buffer.",
   "main": "index.js",
   "scripts": {
     "test": "gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yakimchuk/promised-exec.git"
+    "url": "https://github.com/liuzenghui2007/promised-exec-pt.git"
   },
   "keywords": [
     "promise",
@@ -17,14 +17,15 @@
     "terminal",
     "deferred",
     "command",
-    "cmd"
+    "cmd",
+    "maxBuffer"
   ],
-  "author": "Roman Yakimchuk",
+  "author": "Liu Zenghui",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yakimchuk/promised-exec/issues"
+    "url": "https://github.com/liuzenghui2007/promised-exec-pt/issues"
   },
-  "homepage": "https://github.com/yakimchuk/promised-exec",
+  "homepage": "https://github.com/liuzenghui2007/promised-exec-pt",
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-jasmine": "^1.0.1"
